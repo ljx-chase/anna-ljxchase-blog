@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Hub - Condensed Matter Physics & Bioinformatics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #ecf0f1;
+            --bg-section: #f8f9fa;
+            --physics-color: #9b59b6;
+            --bio-color: #16a085;
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-physics: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            --gradient-bio: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-main);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,165.3C384,171,480,149,576,128C672,107,768,85,864,90.7C960,96,1056,128,1152,133.3C1248,139,1344,117,1392,106.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') bottom no-repeat;
+            background-size: cover;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+        }
+
+        .contributors {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contributor {
+            text-align: center;
+        }
+
+        .contributor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 2rem;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .contributor-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .contributor-focus {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .about-content {
+            padding: 0 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Knowledge Areas */
+        .knowledge-areas {
+            background: var(--bg-section);
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .areas-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 0 2rem;
+        }
+
+        .area-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .area-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .area-header {
+            padding: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .area-header.physics {
+            background: var(--gradient-physics);
+        }
+
+        .area-header.bio {
+            background: var(--gradient-bio);
+        }
+
+        .area-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .area-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .area-header .contributor {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .area-content {
+            padding: 2.5rem;
+        }
+
+        .area-content h3 {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--bg-light);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .topic-list li:last-child {
+            border-bottom: none;
+        }
+
+        .topic-list li:hover {
+            padding-left: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .topic-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .topic-description {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .explore-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.75rem 2rem;
+            background: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .explore-link:hover {
+            background: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        /* Latest Insights */
+        .latest-insights {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-top: 4px solid transparent;
+        }
+
+        .insight-card.physics {
+            border-top-color: var(--physics-color);
+        }
+
+        .insight-card.bio {
+            border-top-color: var(--bio-color);
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .insight-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .insight-category {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-light);
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        .insight-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-decoration: none;
+            display: block;
+        }
+
+        .insight-title:hover {
+            color: var(--secondary-color);
+        }
+
+        .insight-excerpt {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .read-time {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Learning Resources */
+        .resources {
+            background: var(--bg-section);
+            padding: 5rem 0;
+        }
+
+        .resources-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .resource-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .resource-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .resource-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .resource-list li {
+            padding: 0.5rem 0;
+            color: var(--text-dark);
+        }
+
+        .resource-list a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .resource-list a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background: var(--gradient-main);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 0.75rem 2rem;
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-about h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-about p {
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            padding: 0.5rem 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .areas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contributors {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .area-card, .insight-card, .resource-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Knowledge Hub</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#topics">Topics</a></li>
+                <li><a href="#insights">Insights</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Exploring Physics & Bioinformatics</h1>
+            <p>A collaborative platform for sharing knowledge, insights, and learning experiences in condensed matter physics and bioinformatics</p>
+            
+            <div class="contributors">
+                <div class="contributor">
+                    <div class="contributor-avatar">L</div>
+                    <div class="contributor-name">ljxchase</div>
+                    <div class="contributor-focus">Light-Matter Interaction</div>
+                </div>
+                <div class="contributor">
+                    <div class="contributor-avatar">A</div>
+                    <div class="contributor-name">Anna</div>
+                    <div class="contributor-focus">Bioinformatics</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2>Welcome to Our Knowledge Hub</h2>
+        <div class="about-content">
+            <p>This platform is dedicated to sharing insights, discoveries, and learning experiences in two fascinating fields: condensed matter physics and bioinformatics. We believe in the power of knowledge sharing and aim to make complex concepts accessible through clear explanations, practical examples, and personal learning journeys.</p>
+        </div>
+        <div class="about-features">
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Learning Insights</h3>
+                <p>Personal experiences and "aha!" moments in understanding complex concepts</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Deep Dives</h3>
+                <p>Thorough explorations of specific topics with practical applications</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Knowledge Exchange</h3>
+                <p>Bridging physics and biology through interdisciplinary perspectives</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="knowledge-areas" id="topics">
+        <div class="section-header">
+            <h2 class="section-title">Knowledge Areas</h2>
+            <p class="section-subtitle">Explore our main topics and discover fascinating concepts in physics and bioinformatics</p>
+        </div>
+        
+        <div class="areas-grid">
+            <div class="area-card">
+                <div class="area-header physics">
+                    <h2>Condensed Matter Physics</h2>
+                    <p class="contributor">Curated by ljxchase</p>
+                </div>
+                <div class="area-content">
+                    <h3>Featured Topics</h3>
+                    <ul class="topic-list">
+                        <li>
+                            <div class="topic-title">Quantum Optics Fundamentals</div>
+                            <div class="topic-description">Understanding light-matter interaction at the quantum level</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Photonic Crystals Explained</div>
+                            <div class="topic-description">How periodic structures control light propagation</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Introduction to Plasmonics</div>
+                            <div class="topic-description">Surface plasmons and their applications</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Topological Photonics Basics</div>
+                            <div class="topic-description">Protected light states and robust waveguides</div>
+                        </li>
+                    </ul>
+                    <a href="physics-topics.html" class="explore-link">Explore All Topics →</a>
+                </div>
+            </div>
+
+            <div class="area-card">
+                <div class="area-header bio">
+                    <h2>Bioinformatics</h2>
+                    <p class="contributor">Curated by Anna</p>
+                </div>
+                <div class="area-content">
+                    <h3>Featured Topics</h3>
+                    <ul class="topic-list">
+                        <li>
+                            <div class="topic-title">Sequence Analysis Basics</div>
+                            <div class="topic-description">Essential algorithms for DNA and protein sequences</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Machine Learning in Biology</div>
+                            <div class="topic-description">AI applications in genomics and proteomics</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Protein Structure Prediction</div>
+                            <div class="topic-description">From sequence to 3D structure</div>
+                        </li>
+                        <li>
+                            <div class="topic-title">Systems Biology Concepts</div>
+                            <div class="topic-description">Understanding biological networks and pathways</div>
+                        </li>
+                    </ul>
+                    <a href="bio-topics.html" class="explore-link">Explore All Topics →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="latest-insights" id="insights">
+        <div class="section-header">
+            <h2 class="section-title">Latest Insights & Learning Experiences</h2>
+            <p class="section-subtitle">Recent articles, tutorials, and personal insights from our learning journey</p>
+        </div>
+        
+        <div class="insights-grid">
+            <article class="insight-card physics">
+                <div class="insight-meta">
+                    <span class="insight-category">Physics</span>
+                    <span>Dec 15, 2024</span>
+                </div>
+                <a href="#" class="insight-title">My Journey Understanding Cavity QED</a>
+                <p class="insight-excerpt">How I finally grasped the concept of strong coupling between light and matter, and the visualization techniques that made it click...</p>
+                <div class="read-time">📖 8 min read</div>
+            </article>
+
+            <article class="insight-card bio">
+                <div class="insight-meta">
+                    <span class="insight-category">Bioinformatics</span>
+                    <span>Dec 10, 2024</span>
+                </div>
+                <a href="#" class="insight-title">Demystifying BLAST: A Beginner's Perspective</a>
+                <p class="insight-excerpt">Breaking down the BLAST algorithm into simple concepts and sharing the analogies that helped me understand sequence alignment...</p>
+                <div class="read-time">📖 12 min read</div>
+            </article>
+
+            <article class="insight-card physics">
+                <div class="insight-meta">
+                    <span class="insight-category">Physics</span>
+                    <span>Dec 5, 2024</span>
+                </div>
+                <a href="#" class="insight-title">Visualizing Photonic Band Structures</a>
+                <p class="insight-excerpt">Interactive approaches to understanding band diagrams and dispersion relations in photonic crystals...</p>
+                <div class="read-time">📖 10 min read</div>
+            </article>
+
+            <article class="insight-card bio">
+                <div class="insight-meta">
+                    <span class="insight-category">Bioinformatics</span>
+                    <span>Nov 28, 2024</span>
+                </div>
+                <a href="#" class="insight-title">From Biology to Code: Learning Python for Genomics</a>
+                <p class="insight-excerpt">A biologist's guide to programming, focusing on practical applications in sequence analysis...</p>
+                <div class="read-time">📖 15 min read</div>
+            </article>
+
+            <article class="insight-card physics">
+                <div class="insight-meta">
+                    <span class="insight-category">Interdisciplinary</span>
+                    <span>Nov 20, 2024</span>
+                </div>
+                <a href="#" class="insight-title">Physics Meets Biology: Optical Tweezers Explained</a>
+                <p class="insight-excerpt">How concepts from both fields come together in this fascinating experimental technique...</p>
+                <div class="read-time">📖 10 min read</div>
+            </article>
+
+            <article class="insight-card bio">
+                <div class="insight-meta">
+                    <span class="insight-category">Tutorial</span>
+                    <span>Nov 15, 2024</span>
+                </div>
+                <a href="#" class="insight-title">Building Your First Phylogenetic Tree</a>
+                <p class="insight-excerpt">Step-by-step guide with common pitfalls I encountered and how to avoid them...</p>
+                <div class="read-time">📖 20 min read</div>
+            </article>
+        </div>
+    </section>
+
+    <section class="resources" id="resources">
+        <div class="section-header">
+            <h2 class="section-title">Learning Resources</h2>
+            <p class="section-subtitle">Curated materials to support your learning journey</p>
+        </div>
+        
+        <div class="resources-grid">
+            <div class="resource-card">
+                <div class="resource-icon">📚</div>
+                <h3>Study Guides</h3>
+                <ul class="resource-list">
+                    <li>• <a href="#">Quantum Mechanics for Photonics</a></li>
+                    <li>• <a href="#">Introduction to Bioinformatics Algorithms</a></li>
+                    <li>• <a href="#">Mathematical Methods in Physics</a></li>
+                    <li>• <a href="#">Statistics for Biological Data</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-icon">🛠️</div>
+                <h3>Tools & Software</h3>
+                <ul class="resource-list">
+                    <li>• <a href="#">Python Scripts for Data Analysis</a></li>
+                    <li>• <a href="#">Photonic Simulation Tools</a></li>
+                    <li>• <a href="#">Bioinformatics Web Tools</a></li>
+                    <li>• <a href="#">Visualization Resources</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-icon">🎓</div>
+                <h3>Learning Paths</h3>
+                <ul class="resource-list">
+                    <li>• <a href="#">From Classical to Quantum Optics</a></li>
+                    <li>• <a href="#">Bioinformatics for Beginners</a></li>
+                    <li>• <a href="#">Computational Physics Track</a></li>
+                    <li>• <a href="#">Genomics Data Analysis</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Stay Updated</h2>
+            <p>Get weekly insights and new learning resources delivered to your inbox</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>Knowledge Hub</h3>
+                <p>A collaborative platform dedicated to sharing knowledge and learning experiences in condensed matter physics and bioinformatics. Created and maintained by ljxchase and Anna.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Physics Topics</a></li>
+                    <li><a href="#">Bioinformatics Topics</a></li>
+                    <li><a href="#">Recent Posts</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Email</a></li>
+                    <li><a href="#">RSS Feed</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Knowledge Hub. Open knowledge for everyone.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Newsletter form
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for subscribing! We\'ll keep you updated with new insights.');
+            this.reset();
+        });
+
+        // Add animation to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.area-card, .insight-card, .resource-card, .feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
